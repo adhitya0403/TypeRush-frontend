@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import socket from "../socket.js";
 
-import CountDown from "../components/Countdown.jsx";
+import CountDown from "../components/CountDown.jsx";
 import TypeInput from "../components/TypeInput.jsx";
 import ColorClashMode from "./ColorClashMode.jsx";
 import Loading from "../components/Loading.jsx";

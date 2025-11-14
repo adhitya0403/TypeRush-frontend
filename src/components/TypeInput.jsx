@@ -55,6 +55,12 @@ const TypeInput = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      cancelSpeech();
+    };
+  }, []);
+
   // set base quote and words when prop changes
   useEffect(() => {
     if (originalQuote) {
@@ -143,6 +149,12 @@ const TypeInput = (props) => {
       window.speechSynthesis.cancel();
       window.speechSynthesis.onvoiceschanged = null;
     };
+  }, [gameMode]);
+
+  useEffect(() => {
+    if (gameMode !== "Echo Mode") {
+      cancelSpeech();
+    }
   }, [gameMode]);
 
   const handleStart = () => {

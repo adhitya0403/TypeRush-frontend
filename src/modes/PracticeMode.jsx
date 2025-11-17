@@ -7,29 +7,39 @@ import ConfirmPopUp from "../components/ConfirmPopUp.jsx";
 import Loading from "../components/Loading.jsx";
 import ServerError from "../components/ServerError.jsx";
 import Images from "../constants/images.js";
+import DifficultyPopUp from "../components/DifficultyPopUp.jsx";
 
 const PracticeMode = () => {
   const { quote, loading, error, fetchData } = useQuoteStore();
   const [isComplete, setIsComplete] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [currentStats, setCurrentStats] = useState(null);
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [difficulty, setDifficulty] = useState("");
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const params = new URLSearchParams(search);
-
-  const textCase = params.get("text");
-
-  useEffect(() => {
-    const endpoint = `/random/${textCase}`;
-    fetchData(endpoint, navigate, "/solo-play");
-  }, []);
 
   const handleReset = () => {
-    const endpoint = `/random/${textCase}`;
+    const endpoint = `/random/${difficulty}`;
     fetchData(endpoint, navigate, "/solo-play");
     setShowConfirm(false);
     setIsComplete(false);
+  };
+
+  useEffect(() => {
+    setShowPopup(true);
+  }, []);
+
+  const handleConfirmDifficulty = (difficultyParam) => {
+    const text =
+      difficultyParam === "Easy"
+        ? "lower"
+        : difficultyParam === "Medium"
+        ? "upper"
+        : "mixed";
+    setDifficulty(text);
+    setShowPopup(false);
+    const endpoint = `/random/${text}`;
+    fetchData(endpoint, navigate, "/solo-play");
   };
 
   const handleExit = () => {
@@ -48,19 +58,25 @@ const PracticeMode = () => {
       />
       <div className="absolute inset-0 bg-black/80" />
 
-      {(isComplete || showConfirm) && (
-        <div className="absolute inset-0 z-[9999] flex justify-center items-start pt-26  bg-black/40 backdrop-blur-sm">
-          {isComplete && (
-            <div className="z-50">
-              <Results
-                handleReset={handleReset}
-                wpm={currentStats.wpm}
-                accuracy={currentStats.accuracy}
-                time={currentStats.time}
-                errors={currentStats.errors}
-                quitPath={"solo-play"}
-              />
-            </div>
+      {(isComplete || showConfirm || showPopup) && (
+        <div className="absolute inset-0 z-[9999] flex justify-center items-start pt-26 bg-black/40 backdrop-blur-sm">
+          {isComplete && currentStats && (
+            <Results
+              handleReset={handleReset}
+              wpm={currentStats.wpm}
+              accuracy={currentStats.accuracy}
+              time={currentStats.time}
+              errors={currentStats.errors}
+              quitPath={"solo-play"}
+            />
+          )}
+
+          {showPopup && (
+            <DifficultyPopUp
+              title="Practice Mode"
+              onConfirm={handleConfirmDifficulty}
+              onCancel={() => navigate(-1)}
+            />
           )}
 
           {showConfirm && (
@@ -74,14 +90,19 @@ const PracticeMode = () => {
       )}
 
       <div className="relative h-full z-10">
-        <TypeInput
-          originalQuote={quote}
-          handleReset={handleReset}
-          showConfirm={showConfirm}
-          setShowConfirm={setShowConfirm}
-          setIsComplete={setIsComplete}
-          setCurrentStats={setCurrentStats}
-        />
+        {
+          <TypeInput
+            originalQuote={quote}
+            handleReset={handleReset}
+            showConfirm={showConfirm}
+            setShowConfirm={setShowConfirm}
+            setIsComplete={setIsComplete}
+            bestStats={null}
+            saveStats={null}
+            gameMode="Practice Mode"
+            setCurrentStats={setCurrentStats}
+          />
+        }
       </div>
     </div>
   );

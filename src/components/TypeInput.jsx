@@ -285,9 +285,7 @@ const TypeInput = (props) => {
     } else {
       if (correct) {
         setIndex(currIndex + 1);
-      } else {
-        setIndex(currIndex + 1);
-      }
+      } 
     }
 
     // clear input

@@ -33,7 +33,7 @@ const MirrorMode = () => {
     const text =
       difficultyParam === "Easy"
         ? "lower"
-        : difficulty === "Medium"
+        : difficultyParam === "Medium"
         ? "upper"
         : "mixed";
     setDifficulty(text);

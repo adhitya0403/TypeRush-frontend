@@ -33,7 +33,7 @@ const MemoryMode = () => {
     const text =
       difficultyParam === "Easy"
         ? "lower"
-        : difficulty === "Medium"
+        : difficultyParam === "Medium"
         ? "upper"
         : "mixed";
 

@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import DifficultyPopUp from "../components/DifficultyPopUp.jsx";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import Images from "../constants/images.js";
 
@@ -11,10 +10,7 @@ const SoloPlay = () => {
   const clickSoundRef = useRef(null);
 
   const [hoverEnabled, setHoverEnabled] = useState(false);
-  const [showModeSelector, setShowModeSelector] = useState(false);
 
-  // ModeSelector state
-  const [textCase, setTextCase] = useState("Easy");
 
   useEffect(() => {
     const timer = setTimeout(() => setHoverEnabled(true), 1000);
@@ -42,17 +38,6 @@ const SoloPlay = () => {
     }
   };
 
-  const handleConfirm = () => {
-    setShowModeSelector(false);
-    const text =
-      textCase === "Easy"
-        ? "lower"
-        : textCase === "Medium"
-        ? "upper"
-        : "Mixed";
-    navigate(`/practice-mode?text=${text}`);
-  };
-
   return (
     <div className="relative h-full w-full">
       {/* Background */}
@@ -63,14 +48,6 @@ const SoloPlay = () => {
       <div className="absolute inset-0 bg-black/70"></div>
 
       {/* ModeSelector Popup */}
-      {showModeSelector && (
-        <DifficultyPopUp
-          textCase={textCase}
-          setTextCase={setTextCase}
-          onConfirm={handleConfirm}
-          setShowModeSelector={setShowModeSelector}
-        />
-      )}
 
       {/* Main Menu */}
       <div className="relative z-10 flex  items-center justify-center h-full">
@@ -85,7 +62,7 @@ const SoloPlay = () => {
           <li
             className="px-13 py-5  border-2 glow-hover glow-blue cursor-pointer"
             onPointerEnter={handleHover}
-            onClick={() => setShowModeSelector(true)}
+            onClick={() => navigate("/practice-mode")}
           >
             Practice Mode
           </li>

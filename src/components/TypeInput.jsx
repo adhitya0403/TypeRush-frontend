@@ -285,7 +285,7 @@ const TypeInput = (props) => {
     } else {
       if (correct) {
         setIndex(currIndex + 1);
-      } 
+      }
     }
 
     // clear input
@@ -320,7 +320,7 @@ const TypeInput = (props) => {
         errors,
         time: elapsed,
       };
-      saveStats(currentData);
+      if (saveStats) saveStats(currentData);
       setCurrentStats(currentData);
     }
 

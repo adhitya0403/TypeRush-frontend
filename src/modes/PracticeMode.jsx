@@ -59,7 +59,7 @@ const PracticeMode = () => {
       <div className="absolute inset-0 bg-black/80" />
 
       {(isComplete || showConfirm || showPopup) && (
-        <div className="absolute inset-0 z-[9999] flex justify-center items-start pt-26 bg-black/40 backdrop-blur-sm">
+        <div className="absolute inset-0 z-[9999] flex justify-center items-start bg-black/40 backdrop-blur-sm">
           {isComplete && currentStats && (
             <Results
               handleReset={handleReset}
@@ -67,7 +67,7 @@ const PracticeMode = () => {
               accuracy={currentStats.accuracy}
               time={currentStats.time}
               errors={currentStats.errors}
-              quitPath={"solo-play"}
+              quitPath={"/solo-play"}
             />
           )}
 
